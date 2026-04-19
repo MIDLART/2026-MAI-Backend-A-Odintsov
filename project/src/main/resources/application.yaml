@@ -20,9 +20,13 @@ spring:
     compose:
       file: D:/IntelliJ IDEA/ProgEngineering/project/docker-compose.yml
 
+server:
+  port: 8081
+
 logging:
   level:
     org:
       springframework:
         security: DEBUG
     flywaydb: DEBUG
+

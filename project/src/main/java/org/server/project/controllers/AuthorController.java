@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class AuthorController {
   @GetMapping("/authors")
   public List<AuthorDto> getAllAuthors() {

@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class BookController {
   @GetMapping("/books")
   public List<BookDto> getAllBooks() {
