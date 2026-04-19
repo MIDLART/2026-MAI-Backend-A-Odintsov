@@ -1,4 +1,4 @@
-package org.server.project.entitis;
+package org.server.project.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

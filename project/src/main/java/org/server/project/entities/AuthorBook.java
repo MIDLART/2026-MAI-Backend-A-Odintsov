@@ -1,11 +1,11 @@
-package org.server.project.entitis;
+package org.server.project.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.server.project.entitis.composite_keys.AuthorBookId;
+import org.server.project.entities.composite_keys.AuthorBookId;
 
 @Getter
 @Setter

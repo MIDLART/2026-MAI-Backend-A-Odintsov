@@ -1,4 +1,4 @@
-package org.server.project.entitis.composite_keys;
+package org.server.project.entities.composite_keys;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
