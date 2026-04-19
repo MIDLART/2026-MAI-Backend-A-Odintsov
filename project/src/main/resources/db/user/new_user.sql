@@ -1,0 +1,3 @@
+CREATE USER new_user WITH PASSWORD 'new_user_password';
+GRANT USAGE, CREATE ON SCHEMA public TO new_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO new_user;
