@@ -1,0 +1,32 @@
+D:\Apache Lounge\Apache24\bin>ab -l -q -d -n 10000 -c 10000 http://localhost:8080/generate
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /generate
+Document Length:        Variable
+
+Concurrency Level:      10000
+Time taken for tests:   157.188 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      1478056 bytes
+HTML transferred:       120250 bytes
+Requests per second:    63.62 [#/sec] (mean)
+Time per request:       157188.333 [ms] (mean)
+Time per request:       15.719 [ms] (mean, across all concurrent requests)
+Transfer rate:          9.18 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.3      0       1
+Processing:  1429 78221 44986.8  78363  155768
+Waiting:       51 78208 44996.6  78356  155768
+Total:       1430 78221 44986.8  78364  155768
