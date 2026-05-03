@@ -72,7 +72,7 @@ public class BookController {
   }
 
   @GetMapping("/books/search")
-  public List<BookDto> searchBooks(@RequestParam String q) {
+  public List<BookDetailsDto> searchBooks(@RequestParam String q) {
     return bookService.searchBooks(q);
   }
 }

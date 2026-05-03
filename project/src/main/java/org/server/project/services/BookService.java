@@ -65,10 +65,10 @@ public class BookService {
     return toBookDetailsDto(saved);
   }
 
-  public List<BookDto> searchBooks(String q) {
+  public List<BookDetailsDto> searchBooks(String q) {
     return bookRepository.searchByTitleOrDescription(q)
             .stream()
-            .map(BookService::toBookDto)
+            .map(this::toBookDetailsDto)
             .toList();
   }
 
