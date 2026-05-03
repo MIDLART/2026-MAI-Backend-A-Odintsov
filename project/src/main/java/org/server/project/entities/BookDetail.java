@@ -3,8 +3,6 @@ package org.server.project.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -16,10 +14,9 @@ public class BookDetail {
   private Long id;
 
   @MapsId
-  @OneToOne(fetch = FetchType.LAZY, optional = false)
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinColumn(name = "book_id", nullable = false)
-  private Book books;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "book_id")
+  private Book book;
 
   @Column(name = "isbn", length = 13)
   private String isbn;
@@ -35,5 +32,4 @@ public class BookDetail {
 
   @Column(name = "description", length = Integer.MAX_VALUE)
   private String description;
-
 }

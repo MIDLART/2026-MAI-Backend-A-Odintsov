@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "books")
 public class Book {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
   private Long id;
 
@@ -22,7 +23,7 @@ public class Book {
   @ManyToMany(mappedBy = "books")
   private Set<Author> authors = new LinkedHashSet<>();
 
-  @OneToOne(mappedBy = "books")
+  @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
   private BookDetail bookDetail;
 
   @ManyToMany
@@ -30,5 +31,4 @@ public class Book {
           joinColumns = @JoinColumn(name = "book_id"),
           inverseJoinColumns = @JoinColumn(name = "user_id"))
   private Set<User> users = new LinkedHashSet<>();
-
 }

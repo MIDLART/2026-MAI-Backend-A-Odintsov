@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "authors")
 public class Author {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
   private Long id;
 
