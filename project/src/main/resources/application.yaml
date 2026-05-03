@@ -20,6 +20,9 @@ spring:
     compose:
       file: D:/IntelliJ IDEA/ProgEngineering/project/docker-compose.yml
 
+  jackson:
+    default-property-inclusion: non_null
+
 server:
   port: 8081
 

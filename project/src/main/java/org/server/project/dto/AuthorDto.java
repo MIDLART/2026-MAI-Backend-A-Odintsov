@@ -1,9 +1,3 @@
 package org.server.project.dto;
 
-import lombok.Data;
-
-@Data
-public class AuthorDto {
-  private Long id;
-  private String name;
-}
+public record AuthorDto(Long id, String name) {}

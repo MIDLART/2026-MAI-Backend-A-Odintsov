@@ -1,17 +1,14 @@
 package org.server.project.dto;
 
-import lombok.Data;
-
 import java.util.Set;
 
-@Data
-public class BookDetailsDto {
-  private Long id;
-  private String title;
-  private Set<AuthorDto> authors;
-  private String isbn;
-  private Integer publishYear;
-  private Integer pageCount;
-  private String language;
-  private String description;
-}
+public record BookDetailsDto(
+        Long id,
+        String title,
+        Set<AuthorDto> authors,
+        String isbn,
+        Integer publishYear,
+        Integer pageCount,
+        String language,
+        String description)
+{}
