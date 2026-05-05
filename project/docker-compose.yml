@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres
+    image: postgres:17
     container_name: postgres_prog_eng
     environment:
       POSTGRES_DB: prog_eng_db
@@ -10,6 +10,50 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d prog_eng_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: spring_app_prog_eng
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/prog_eng_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "pgrep -f 'java -jar app.jar' || exit 1" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.29
+    container_name: nginx_proxy_prog_eng
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "nginx", "-t" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
 
 volumes:
   postgres_data:

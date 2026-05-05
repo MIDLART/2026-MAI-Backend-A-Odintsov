@@ -3,22 +3,18 @@ spring:
     name: Server
 
   datasource:
-    url: jdbc:postgresql://postgres:5432/prog_eng_db
-    username: user
-    password: password
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/prog_eng_db}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
 
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: true
-    
+
   flyway:
     enabled: true
     baseline-on-migrate: true
-
-  docker:
-    compose:
-      file: D:/IntelliJ IDEA/ProgEngineering/project/docker-compose.yml
 
   jackson:
     default-property-inclusion: non_null
@@ -32,4 +28,3 @@ logging:
       springframework:
         security: DEBUG
     flywaydb: DEBUG
-
