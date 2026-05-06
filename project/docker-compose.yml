@@ -18,6 +18,20 @@ services:
       start_period: 30s
     restart: unless-stopped
 
+  migrate:
+    image: flyway/flyway:11-alpine
+    command:
+      - -url=jdbc:postgresql://postgres:5432/prog_eng_db
+      - -user=user
+      - -password=password
+      - -connectRetries=60
+      - migrate
+    volumes:
+      - ./src/main/resources/db/migration:/flyway/sql:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   app:
     build: .
     container_name: spring_app_prog_eng
