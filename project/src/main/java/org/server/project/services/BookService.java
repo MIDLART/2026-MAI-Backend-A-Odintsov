@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BookService {
-
   private final BookRepository bookRepository;
   private final AuthorRepository authorRepository;
 
@@ -63,6 +62,41 @@ public class BookService {
 
     Book saved = bookRepository.save(book);
     return toBookDetailsDto(saved);
+  }
+
+  public BookDetailsDto updateBook(long id, BookRequestDto dto) {
+    Book book = bookRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Книга с id " + id + " не найдена"));
+
+    book.setTitle(dto.title());
+
+    Set<Author> authors = dto.authors().stream()
+            .map(authorId -> authorRepository.findById(authorId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Автор с id " + authorId + " не найден")))
+            .collect(Collectors.toSet());
+    book.setAuthors(authors);
+    for (Author author : authors) {
+      author.getBooks().add(book);
+    }
+
+    BookDetail detail = book.getBookDetail();
+    if (detail != null) {
+      detail.setIsbn(dto.isbn());
+      detail.setPublishYear(dto.publishYear());
+      detail.setPageCount(dto.pageCount());
+      detail.setLanguage(dto.language());
+      detail.setDescription(dto.description());
+    }
+
+    Book saved = bookRepository.save(book);
+    return toBookDetailsDto(saved);
+  }
+
+  public void deleteBook(long id) {
+    if (!bookRepository.existsById(id)) {
+      throw new ResourceNotFoundException("Книга с id " + id + " не найдена");
+    }
+    bookRepository.deleteById(id);
   }
 
   public List<BookDetailsDto> searchBooks(String q) {

@@ -27,6 +27,13 @@ public class UserService {
 
   private final BCryptPasswordEncoder passwordEncoder;
 
+  public List<UserDto> getAllUsers() {
+    return userRepository.findAll()
+            .stream()
+            .map(this::toDto)
+            .toList();
+  }
+
   public UserDto getUser(long id) {
     User user = userRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Пользователь с id " + id + " не найден"));
@@ -39,6 +46,24 @@ public class UserService {
     user.setPassword(passwordEncoder.encode(dto.password()));
     User saved = userRepository.save(user);
     return toDto(saved);
+  }
+
+  public UserDto updateUser(long id, UserRequestDto dto) {
+    User user = userRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Пользователь с id " + id + " не найден"));
+    user.setUsername(dto.username());
+    if (dto.password() != null && !dto.password().isBlank()) {
+      user.setPassword(passwordEncoder.encode(dto.password()));
+    }
+    User saved = userRepository.save(user);
+    return toDto(saved);
+  }
+
+  public void deleteUser(long id) {
+    if (!userRepository.existsById(id)) {
+      throw new ResourceNotFoundException("Пользователь с id " + id + " не найден");
+    }
+    userRepository.deleteById(id);
   }
 
   public List<UserDto> searchUsers(String q) {
@@ -76,6 +101,24 @@ public class UserService {
       favorite.setUser(user);
       favorite.setBook(book);
       favoriteBookRepository.save(favorite);
+    }
+
+    return getFavoriteBooks(userId);
+  }
+
+  public List<BookDto> removeFavoriteBook(long userId, Long bookId) {
+    userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("Пользователь с id " + userId + " не найден"));
+
+    bookRepository.findById(bookId)
+            .orElseThrow(() -> new ResourceNotFoundException("Книга с id " + bookId + " не найдена"));
+
+    FavoriteBookId favoriteId = new FavoriteBookId();
+    favoriteId.setUserId(userId);
+    favoriteId.setBookId(bookId);
+
+    if (favoriteBookRepository.existsById(favoriteId)) {
+      favoriteBookRepository.deleteById(favoriteId);
     }
 
     return getFavoriteBooks(userId);

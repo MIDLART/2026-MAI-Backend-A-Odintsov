@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FavoriteBookRepository extends JpaRepository<FavoriteBook, Long> {
+public interface FavoriteBookRepository extends JpaRepository<FavoriteBook, FavoriteBookId> {
   List<FavoriteBook> findByUserId(Long userId);
-
-  boolean existsById(FavoriteBookId id);
 }

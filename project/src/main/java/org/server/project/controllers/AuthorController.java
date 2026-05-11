@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.server.project.dto.AuthorDto;
 import org.server.project.dto.request.AuthorRequestDto;
 import org.server.project.services.AuthorService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,25 +12,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class AuthorController {
-//  @GetMapping("/authors")
-//  public List<AuthorDto> getAllAuthors() {
-//    return List.of(
-//            new AuthorDto(1L, "Пушкин"),
-//            new AuthorDto(2L, "Толстой"),
-//            new AuthorDto(3L, "Достоевский")
-//    );
-//  }
-//
-//  @GetMapping("/author/{id}")
-//  public AuthorDto getAuthor(@PathVariable long id) {
-//    return new AuthorDto(id, "автор");
-//  }
-//
-//  @PostMapping("/authors/create")
-//  public AuthorDto createAuthor(@RequestBody AuthorRequestDto author) {
-//    return new AuthorDto(1L, author.name());
-//  }
-
   private final AuthorService authorService;
 
   @GetMapping("/authors")
@@ -45,6 +27,17 @@ public class AuthorController {
   @PostMapping("/authors/create")
   public AuthorDto createAuthor(@RequestBody AuthorRequestDto author) {
     return authorService.createAuthor(author);
+  }
+
+  @PutMapping("/author/{id}/update")
+  public AuthorDto updateAuthor(@PathVariable long id, @RequestBody AuthorRequestDto author) {
+    return authorService.updateAuthor(id, author);
+  }
+
+  @DeleteMapping("/author/{id}/delete")
+  public ResponseEntity<Void> deleteAuthor(@PathVariable long id) {
+    authorService.deleteAuthor(id);
+    return ResponseEntity.noContent().build();
   }
 
   @GetMapping("/authors/search")

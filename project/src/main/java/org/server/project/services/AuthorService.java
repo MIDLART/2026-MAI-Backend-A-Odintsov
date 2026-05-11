@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthorService {
-
   private final AuthorRepository authorRepository;
 
   public List<AuthorDto> getAllAuthors() {
@@ -34,6 +33,21 @@ public class AuthorService {
     author.setName(dto.name());
     Author saved = authorRepository.save(author);
     return toDto(saved);
+  }
+
+  public AuthorDto updateAuthor(long id, AuthorRequestDto dto) {
+    Author author = authorRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Автор с id " + id + " не найден"));
+    author.setName(dto.name());
+    Author saved = authorRepository.save(author);
+    return toDto(saved);
+  }
+
+  public void deleteAuthor(long id) {
+    if (!authorRepository.existsById(id)) {
+      throw new ResourceNotFoundException("Автор с id " + id + " не найден");
+    }
+    authorRepository.deleteById(id);
   }
 
   public List<AuthorDto> searchAuthors(String q) {
