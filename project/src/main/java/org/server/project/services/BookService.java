@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class BookService {
   private final BookRepository bookRepository;
   private final AuthorRepository authorRepository;
+  private final CentrifugoService centrifugoService;
 
   public List<BookDto> getAllBooks() {
     return bookRepository.findAll()
@@ -61,7 +62,11 @@ public class BookService {
     book.setAuthors(authors);
 
     Book saved = bookRepository.save(book);
-    return toBookDetailsDto(saved);
+    BookDetailsDto result = toBookDetailsDto(saved);
+
+    centrifugoService.publish("public:books", result);
+
+    return result;
   }
 
   public BookDetailsDto updateBook(long id, BookRequestDto dto) {
